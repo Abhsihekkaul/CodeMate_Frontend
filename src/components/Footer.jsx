@@ -1,0 +1,47 @@
+import React from 'react';
+
+const Footer = () => {
+  return (
+    <footer className="bg-[#1D232A] text-green-400 font-mono px-6 py-10 border-t border-green-800">
+      <div className="flex flex-col items-center gap-6">
+        <nav className="flex gap-6 text-sm tracking-wide">
+          <a className="hover:text-green-300 transition-all duration-200 cursor-pointer">About Us</a>
+          <a className="hover:text-green-300 transition-all duration-200 cursor-pointer">Contact</a>
+          <a className="hover:text-green-300 transition-all duration-200 cursor-pointer">About CEO</a>
+        </nav>
+
+
+        <div className="flex gap-6">
+          <a className="hover:scale-110 transition-transform duration-200" href="#">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" className="text-green-500">
+              <path d="M22.675 0h-21.35C.594 0 0 .594 0 1.326v21.348C0 23.406.594 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.464.099 2.797.143v3.24h-1.918c-1.505 0-1.797.715-1.797 1.763v2.31h3.594l-.468 3.622h-3.126V24h6.126C23.406 24 24 23.406 24 22.674V1.326C24 .594 23.406 0 22.675 0z"/>
+            </svg>
+          </a>
+          <a className="hover:scale-110 transition-transform duration-200" href="#">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" className="text-green-500">
+              <path d="M24 4.557a9.93 9.93 0 0 1-2.828.775A4.932 4.932 0 0 0 23.337 3.1a9.864 9.864 0 0 1-3.127 1.195 4.916 4.916 0 0 0-8.384 4.482A13.957 13.957 0 0 1 1.671 3.149 4.916 4.916 0 0 0 3.195 9.72a4.902 4.902 0 0 1-2.229-.616v.062a4.915 4.915 0 0 0 3.946 4.818 4.897 4.897 0 0 1-2.224.084 4.918 4.918 0 0 0 4.588 3.417A9.867 9.867 0 0 1 0 19.54a13.945 13.945 0 0 0 7.548 2.212c9.057 0 14.009-7.513 14.009-14.009 0-.213-.005-.425-.014-.636A10.025 10.025 0 0 0 24 4.557z"/>
+            </svg>
+          </a>
+          <a className="hover:scale-110 transition-transform duration-200" href="#">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" className="text-green-500">
+              <path d="M12 2.163c3.204 0 3.584.012 4.849.07 1.366.062 2.633.34 3.608 1.316.976.975 1.254 2.242 1.316 3.608.058 1.265.07 1.645.07 4.849s-.012 3.584-.07 4.849c-.062 1.366-.34 2.633-1.316 3.608-.975.976-2.242 1.254-3.608 1.316-1.265.058-1.645.07-4.849.07s-3.584-.012-4.849-.07c-1.366-.062-2.633-.34-3.608-1.316-.976-.975-1.254-2.242-1.316-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.849c.062-1.366.34-2.633 1.316-3.608.975-.976 2.242-1.254 3.608-1.316C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.736 0 8.332.013 7.052.07 5.765.127 4.534.385 3.5 1.42c-1.033 1.033-1.291 2.265-1.35 3.552C2.013 6.664 2 7.068 2 12s.013 5.336.07 6.628c.059 1.287.317 2.519 1.35 3.552 1.033 1.033 2.265 1.291 3.552 1.35C8.332 23.987 8.736 24 12 24s3.668-.013 4.948-.07c1.287-.059 2.519-.317 3.552-1.35 1.033-1.033 1.291-2.265 1.35-3.552.057-1.292.07-1.696.07-6.628s-.013-5.336-.07-6.628c-.059-1.287-.317-2.519-1.35-3.552-1.033-1.033-2.265-1.291-3.552-1.35C15.668.013 15.264 0 12 0z"/>
+              <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998z"/>
+              <circle cx="18.406" cy="5.594" r="1.44"/>
+            </svg>
+          </a>
+          <a className="hover:scale-110 transition-transform duration-200" href="#">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24" className="text-green-500">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.327-.024-3.037-1.85-3.037-1.85 0-2.132 1.445-2.132 2.939v5.667H9.358V9h3.414v1.561h.049c.476-.9 1.635-1.85 3.366-1.85 3.599 0 4.264 2.368 4.264 5.455v6.286zM5.337 7.433c-1.144 0-2.07-.928-2.07-2.07 0-1.144.928-2.07 2.07-2.07 1.144 0 2.07.928 2.07 2.07 0 1.144-.928 2.07-2.07 2.07zM6.814 20.452H3.861V9h2.953v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.208 24 24 23.226 24 22.271V1.729C24 .774 23.208 0 22.225 0z"/>
+            </svg>
+          </a>
+        </div>
+
+            <p className="text-xs text-green-600">
+          © {new Date().getFullYear()} — All rights reserved by Abhishek Kaul
+        </p>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
