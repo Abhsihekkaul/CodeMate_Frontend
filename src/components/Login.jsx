@@ -6,8 +6,9 @@ import { addUsers } from '../utils/UserSlice';
 import { useNavigate } from 'react-router';
 
 const Login = () => {
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [Email, setEmail] = useState('Abhishek@gmail.com');
+  const [Password, setPassword] = useState('Abhishek@000');
+  const [Error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,9 +23,12 @@ const Login = () => {
     });
       dispatch(addUsers(res.data));
       navigate("/");
+      window.location.reload();
       // console.log(res.data);
     }catch(err){
-      console.log(err.message);
+
+      console.log(err);
+      setError(err?.response?.data?.error);
     }
   }
 
@@ -54,6 +58,8 @@ const Login = () => {
             className="w-full px-4 py-2 bg-[#1A1D21] text-green-300 border border-green-600 rounded-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-150 placeholder-green-700"
           />
         </div>
+
+        <p className='text-red-700 my-5'>{Error}</p>
 
         <button className="w-full bg-green-600 hover:bg-green-500 text-[#0f1115] font-bold py-2 rounded-sm transition-all duration-200 tracking-widest shadow-md hover:shadow-green-500/20"
         onClick={()=>handleButton()}

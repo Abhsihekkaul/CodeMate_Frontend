@@ -9,7 +9,7 @@ import { BaseURL } from '../utils/Constant';
 
 const Body = () => {
   const UserData = useSelector((store) => store.user);
-  console.log(UserData);
+  // console.log(UserData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

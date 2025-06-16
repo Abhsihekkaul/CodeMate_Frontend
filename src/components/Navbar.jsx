@@ -1,25 +1,43 @@
+import axios from 'axios';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router';
+import { BaseURL } from '../utils/Constant';
+import { removeUsers } from '../utils/UserSlice';
 
 const Navbar = () => {
   const User = useSelector((store) => store.user);
   console.log(User);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(BaseURL + "/logout", {}, { withCredentials: true });
+      dispatch(removeUsers());
+      navigate("/login");
+      window.location.reload(); // 💥 Force UI refresh
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
   return (
     <div className="navbar bg-[#1D232A] text-green-400 font-mono shadow-md border-b border-green-800 px-6">
       <div className="flex-1">
-        <a className="text-3xl tracking-widest font-bold hover:text-green-300 transition-all cursor-pointer">
+        <Link to={"/"} className="text-3xl tracking-widest font-bold hover:text-green-300 transition-all cursor-pointer">
           👨‍💻CodeMate
-        </a>
+        </Link>
       </div>
 
       <div className="flex items-center gap-3">
-        {User && User.user ? (
-            <h1>
-              Hello, {User.user.firstName} {User.user.lastName}
+        {User ? (
+            <h1 className='hidden sm:block'>
+              Hello, {User?.[0]?.firstName} {User?.[0]?.lastName}
             </h1>
           ) : (
-            <h1>Hello, Please Login!</h1>
+            <h1 className='hidden sm:block'>Hello, Please Login!</h1>
           )}
 
 
@@ -36,9 +54,9 @@ const Navbar = () => {
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-md bg-[#1A1D21] border border-green-700 rounded-lg w-52 text-green-300">
-              <li><a className="hover:bg-green-700/10">Profile</a></li>
-              <li><a className="hover:bg-green-700/10">Settings</a></li>
-              <li><a className="hover:bg-green-700/10">Logout</a></li>
+              <li><Link to={"/Profile"} className="hover:bg-green-700/10">Profile</Link></li>
+              <li><Link  className="hover:bg-green-700/10">Settings</Link></li>
+              <li><a onClick={handleLogout} className="hover:bg-green-700/10">Logout</a></li>
             </ul>
           </div>
         )}
