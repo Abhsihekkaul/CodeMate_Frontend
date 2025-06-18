@@ -22,7 +22,7 @@ const Profile = () => {
 
           {/* Profile Image */}
           <img
-            src={PhotoURL || 'https://pbs.twimg.com/profile_images/1757566183317106688/efsQFl4Q_400x400.jpg'}
+            src={PhotoURL || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT48Ke_Q2uphy_MQect9sVe9j0zRyea2Kp26g&s'}
             alt={`${firstName} ${lastName}`}
             className="h-[50vh] w-[50vh] object-cover rounded-lg border-4 border-green-700 shadow-lg shadow-green-900/40"
           />

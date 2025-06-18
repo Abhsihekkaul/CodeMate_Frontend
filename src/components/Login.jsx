@@ -67,6 +67,14 @@ const Login = () => {
           ENTER
         </button>
 
+        <button
+        className="w-full bg-green-300 hover:bg-green-700 text-[#0f1115] font-bold py-2 rounded-sm transition-all duration-200 tracking-widest shadow-md hover:shadow-green-500/20 my-7"
+        onClick={() => navigate('/SignUp')}
+      >
+        Sign Up
+      </button>
+
+
         </div>
     </div>
   );

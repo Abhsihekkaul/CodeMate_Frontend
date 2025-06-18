@@ -41,8 +41,11 @@ const EditProfile = () => {
         autoClose: 3000,
         className: 'bg-green-800 text-white font-mono border border-green-600',
       });
-
-      setTimeout(() => navigate('/profile'), 2000);
+      
+      setTimeout(() => {
+        navigate('/profile');
+        window.location.reload();
+      }, 1000);
     } catch (err) {
       toast.error(`❌ ${err?.response?.data?.error || 'Something went wrong.'}`, {
         position: 'top-right',

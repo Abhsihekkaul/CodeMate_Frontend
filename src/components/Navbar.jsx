@@ -7,7 +7,7 @@ import { removeUsers } from '../utils/UserSlice';
 
 const Navbar = () => {
   const User = useSelector((store) => store.user);
-  console.log(User);
+  // console.log(User);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -47,7 +47,7 @@ const Navbar = () => {
               <div className="w-10 rounded-full border border-green-500 overflow-hidden">
                 <img
                   alt="User Avatar"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src={User?.[0]?.PhotoURL}
                 />
               </div>
             </div>
@@ -55,7 +55,8 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-md bg-[#1A1D21] border border-green-700 rounded-lg w-52 text-green-300">
               <li><Link to={"/Profile"} className="hover:bg-green-700/10">Profile</Link></li>
-              <li><Link  className="hover:bg-green-700/10">Settings</Link></li>
+              <li><Link  to={"/Connections"} className="hover:bg-green-700/10">Connections</Link></li>
+              <li><Link  to={"/feed"} className="hover:bg-green-700/10">Feed</Link></li>
               <li><a onClick={handleLogout} className="hover:bg-green-700/10">Logout</a></li>
             </ul>
           </div>
