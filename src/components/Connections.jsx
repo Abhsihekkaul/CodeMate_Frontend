@@ -3,9 +3,11 @@ import React, { useEffect } from 'react';
 import { BaseURL } from '../utils/Constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnections } from '../utils/ConnectionSlice';
+import ConnectionsCard from './ConnectionsCard';
 
 const Connections = () => {
   const ConnectionsFeed = useSelector((store) => store.Connections);
+  //console.table(ConnectionsFeed);
   const dispatch = useDispatch();
 
   const fetchConnections = async () => {
@@ -13,11 +15,11 @@ const Connections = () => {
 
     try {
       const res = await axios.get(`${BaseURL}/user/connections`, {
-        withCredentials: true, // optional if using cookies
+        withCredentials: true,
       });
 
       dispatch(addConnections(res.data));
-      console.log(res.data);
+      //console.log(res.data);
     } catch (err) {
       console.log("Error fetching connections:", err.response?.data || err.message);
     }
@@ -29,7 +31,13 @@ const Connections = () => {
 
   return (
     <div>
-      Connection 
+      {ConnectionsFeed?.data && ConnectionsFeed?.data.length > 0 ? (
+        ConnectionsFeed?.data.map((connection) => (
+          <ConnectionsCard key={connection._id} data={connection}/>
+        ))
+      ) : (
+        <h1>No connection requests found</h1>
+      )}
     </div>
   );
 };
