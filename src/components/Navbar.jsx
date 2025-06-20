@@ -57,6 +57,7 @@ const Navbar = () => {
               <li><Link to={"/Profile"} className="hover:bg-green-700/10">Profile</Link></li>
               <li><Link  to={"/Connections"} className="hover:bg-green-700/10">Connections</Link></li>
               <li><Link  to={"/feed"} className="hover:bg-green-700/10">Feed</Link></li>
+              <li><Link  to={"/Requests"} className="hover:bg-green-700/10">Requests</Link></li>
               <li><a onClick={handleLogout} className="hover:bg-green-700/10">Logout</a></li>
             </ul>
           </div>
