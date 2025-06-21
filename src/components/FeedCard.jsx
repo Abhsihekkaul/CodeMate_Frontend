@@ -7,6 +7,7 @@ import { setReceivedRequests } from '../utils/RequestSlice';
 const FeedCard = ({ profile }) => {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(true); 
+
   const handleSendingRequest = async (ID, statusClicked) => {
     try {
       const ConnectionReq = await axios.post(
@@ -16,42 +17,44 @@ const FeedCard = ({ profile }) => {
       );
       if (!ConnectionReq) return;
 
-      console.log(ConnectionReq.data);
       dispatch(setReceivedRequests(ConnectionReq.data));
-
-      // hide the card
       setIsVisible(false);
     } catch (err) {
       console.error("Error sending connection request:", err);
     }
   };
 
-  if (!isVisible) return null; // don't render if request sent
+  if (!isVisible) return null;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#1D232A] text-green-400 font-mono px-4">
-      <div className="border border-green-500 w-full max-w-md p-8 rounded-lg bg-[#0f1115] shadow-lg shadow-green-800/10">
-        <div className="flex flex-col items-center">
-          <img
-            src={profile.PhotoURL}
-            alt="Developer"
-            className="w-64 h-64 object-cover mb-6 border-2 border-green-500 shadow-md"
-          />
-          <h1 className="text-xl tracking-widest">{profile.firstName} {profile.lastName}</h1>
-          <p className="text-sm text-green-300 mt-2 mb-4 text-center">{profile.About}</p>
-          <p className="text-green-500 mb-2">Age: {profile.Age}</p>
-          <div className="flex w-full justify-between gap-4 mt-6">
+    <div className="flex justify-center items-center min-h-screen bg-[#1D232A] text-white font-mono px-4">
+      <div className="relative w-full max-w-sm h-[82vh] rounded-lg overflow-hidden shadow-xl shadow-green-800/10">
+        <img
+          src={profile.PhotoURL}
+          alt="Developer"
+          className="w-full h-full object-cover"
+        />
+
+        {/* Overlay content */}
+        <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-black/10 px-4 py-4 text-white">
+          <h1 className="text-lg font-bold tracking-widest">
+            {profile.firstName} {profile.lastName}
+          </h1>
+          <p className="text-sm text-gray-300">{profile.About}</p>
+          <p className="text-sm text-green-400 mt-1">Age: {profile.Age}</p>
+
+          <div className="flex justify-between gap-3 mt-4">
             <button
               onClick={() => handleSendingRequest(profile._id, "interested")}
-              className="flex-1 bg-green-600 hover:bg-green-500 text-[#0f1115] font-bold py-2 rounded-sm transition-all duration-200 tracking-widest shadow-md hover:shadow-green-500/20"
+              className="flex-1 bg-green-500 hover:bg-green-400 text-black font-semibold py-2 rounded-sm transition-all duration-200 text-sm tracking-widest shadow hover:shadow-green-300"
             >
-              interested
+              Interested
             </button>
             <button
               onClick={() => handleSendingRequest(profile._id, "ignored")}
-              className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded-sm transition-all duration-200 tracking-widest shadow-md hover:shadow-red-500/20"
+              className="flex-1 bg-red-500 hover:bg-red-400 text-white font-semibold py-2 rounded-sm transition-all duration-200 text-sm tracking-widest shadow hover:shadow-red-300"
             >
-              ignored
+              Ignore
             </button>
           </div>
         </div>

@@ -7,7 +7,8 @@ const RequestCard = ({ data, reqID }) => {
     const user = data?.fromUserId;
     const HandleReviewRequest = async (ReviewStatus, ID) => {
         try{
-            const req = await axios.post(`${BaseURL}/request/review/${ReviewStatus}/${ID}`,{},{withCredentials:true}) 
+            const req = await axios.post(`${BaseURL}/request/review/${ReviewStatus}/${ID}`,{},{withCredentials:true});
+            
         }catch(err){
             res.json({
                 message : `Error : ${err}`,
@@ -26,7 +27,7 @@ const RequestCard = ({ data, reqID }) => {
           />
           <div>
             <h2 className="text-lg sm:text-xl text-green-400 font-semibold tracking-wide">
-              {user.firstName} {user.lastName} {reqID} 
+              {user.firstName} {user.lastName} 
             </h2>
             <p className="text-green-300 text-sm sm:text-base">
               {user.About || "No bio available."}

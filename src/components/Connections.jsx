@@ -7,7 +7,6 @@ import ConnectionsCard from './ConnectionsCard';
 
 const Connections = () => {
   const ConnectionsFeed = useSelector((store) => store.Connections);
-  //console.table(ConnectionsFeed);
   const dispatch = useDispatch();
 
   const fetchConnections = async () => {

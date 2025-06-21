@@ -1,6 +1,6 @@
 // src/components/Request.js
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BaseURL } from '../utils/Constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { setReceivedRequests } from '../utils/RequestSlice';
@@ -9,6 +9,7 @@ import RequestCard from './RequestCard';
 const Request = () => {
   const dispatch = useDispatch();
   const RequestFeed = useSelector((store) => store.Request.received);
+  const [Error, setError] = useState(" ");
 
   const fetchRequests = async () => {
     if (RequestFeed.length > 0) return;
@@ -17,10 +18,9 @@ const Request = () => {
       const res = await axios.get(`${BaseURL}/user/request/received`, {
         withCredentials: true,
       });
-    //   console.log(res);
-      dispatch(setReceivedRequests(res?.data?.data)); // ✅ Save to Redux
+      dispatch(setReceivedRequests(res?.data?.data));
     } catch (err) {
-      console.error("Error fetching requests:", err.response?.data || err.message);
+      setError(err.message);
     }
   };
 
@@ -35,7 +35,7 @@ const Request = () => {
           <RequestCard key={request._id} data={request} reqID={request._id} />
         ))
       ) : (
-        <h1 className="text-green-400 text-center text-lg mt-10">No connection requests found</h1>
+        <h1 className="text-green-400 text-center text-lg mt-10">{Error}</h1>
       )}
     </div>
   );

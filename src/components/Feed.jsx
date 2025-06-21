@@ -28,7 +28,6 @@ const Feed = () => {
 
   return (
     <div>
-      <h2>Hello world I am feed</h2>
       {
         feedData.map((eachProfile, index) => (
           <FeedCard key={index} profile={eachProfile} />

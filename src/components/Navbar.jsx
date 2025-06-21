@@ -24,7 +24,7 @@ const Navbar = () => {
 
 
   return (
-    <div className="navbar bg-[#1D232A] text-green-400 font-mono shadow-md border-b border-green-800 px-6">
+    <div className="navbar bg-[#1D232A] text-green-400 font-mono shadow-md border-b border-green-800 px-4">
       <div className="flex-1">
         <Link to={"/"} className="text-3xl tracking-widest font-bold hover:text-green-300 transition-all cursor-pointer">
           👨‍💻CodeMate
