@@ -7,12 +7,11 @@ import { BaseURL } from '../utils/Constant';
 const ChatBook = () => {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.Connections?.data || []);
-  const [selectedChat, setSelectedChat] = useState(null); // 🟡 New state
+  const [selectedChat, setSelectedChat] = useState(null);
 
   useEffect(() => {
     const fetchConnections = async () => {
       if (connections.length > 0) return;
-
       try {
         const res = await axios.get(`${BaseURL}/user/connections`, {
           withCredentials: true,
@@ -26,12 +25,17 @@ const ChatBook = () => {
     fetchConnections();
   }, [connections.length, dispatch]);
 
-  // 🔷 If a chat is selected, render the chat window
   if (selectedChat) {
     return (
-      <div className='w-full h-screen bg-[#1f1f1f] text-white'>
-        <div className='flex items-center gap-3 bg-green-700 p-4'>
-          <button onClick={() => setSelectedChat(null)} className='text-white text-5xl'>←</button>
+      <div className='flex flex-col h-[90vh] bg-[#1f1f1f] text-white'>
+        {/* 🔙 Top Bar */}
+        <div className='flex items-center gap-3 bg-green-700 px-4 py-3 shadow-md'>
+          <button
+            onClick={() => setSelectedChat(null)}
+            className='w-10 h-10 flex items-center justify-center text-black text-xl bg-white rounded-full hover:bg-gray-200'
+          >
+            ←
+          </button>
           <img
             src={selectedChat.PhotoURL}
             alt='User'
@@ -42,27 +46,43 @@ const ChatBook = () => {
           </h2>
         </div>
 
-        {/* 🟩 Chat area (replace this with your chat logic/component) */}
-        <div className='p-4'>
-          <p>Chat with {selectedChat.firstName} goes here...</p>
+        {/* 💬 Chat Area */}
+        <div className='flex-1 overflow-y-auto p-4'>
+          <p className='text-gray-300'>Chat with {selectedChat.firstName} goes here...</p>
+        </div>
+
+        {/* ✏️ Input Area */}
+        <div className='flex items-center gap-2 p-4 bg-[#2a2a2a] border-t border-gray-700'>
+          <input
+            type="text"
+            className='flex-1 px-4 py-2 rounded-full bg-gray-800 text-white focus:outline-none'
+            placeholder='Type a message...'
+          />
+          <button className='bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-full'>
+            Send
+          </button>
         </div>
       </div>
     );
   }
 
-  // 🔷 If no chat is selected, render the chat book list
+  // 📖 Chat List
   return (
-    <>
-      <div className='w-full bg-green-700'>
-        <h1 className='text-2xl mx-[41%] py-3 font-semibold text-white'>CHATs</h1>
+    <div className='flex flex-col h-screen bg-[#0f1115] text-white'>
+      {/* 🔝 Header */}
+      <div className='flex justify-between items-center px-6 py-4 bg-green-700'>
+        <h1 className='text-2xl font-semibold'>MateChat</h1>
+        {/* You can uncomment for search input */}
+        {/* <input type="text" placeholder="Search..." className="bg-white px-3 py-1 rounded" /> */}
       </div>
 
-      <div className='py-3'>
+      {/* 📇 Connections List */}
+      <div className='overflow-y-auto flex-1'>
         {connections.length > 0 ? (
           connections.map((conn) => (
             <div
               key={conn._id}
-              className='flex justify-between items-center p-4 bg-[#0f1115] rounded-lg mb-4 w-full cursor-pointer'
+              className='flex justify-between items-center p-4 hover:bg-[#1a1d22] border-b border-[#23272e] cursor-pointer'
             >
               <div className='flex items-center gap-4'>
                 <img
@@ -76,20 +96,19 @@ const ChatBook = () => {
                   </h2>
                 </div>
               </div>
-
               <button
+                onClick={() => setSelectedChat(conn)}
                 className='bg-green-600 hover:bg-green-800 px-4 py-2 rounded text-white text-sm'
-                onClick={() => setSelectedChat(conn)} // 🟡 Open Chat
               >
                 Chat
               </button>
             </div>
           ))
         ) : (
-          <p className='text-white text-center mt-8'>No connections found.</p>
+          <p className='text-gray-400 text-center mt-8'>No connections found.</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

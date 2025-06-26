@@ -34,7 +34,7 @@ const Feed = () => {
   return (
     <div className="flex flex-row h-screen w-full">
     {/* Chat Section (Hidden on Mobile) */}
-    <div className="hidden md:block w-[30%] bg-black text-green overflow-scroll">
+    <div className="h-[95vh] hidden md:block w-[30%] bg-black text-green overflow-y-scroll">
       {/* Your Chat component or placeholder */}
         <ChatBook />
     </div>
