@@ -18,7 +18,6 @@ const ConnectionCard = ({ data }) => {
       if(!id) return;
       const res = await axios.delete(`${BaseURL}/connections/delete/${id}`, {withCredentials:true});
       console.log(res);
-      window.location.reload();
     }catch(err){
       console.log(err);
     }

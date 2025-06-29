@@ -16,7 +16,6 @@ const Navbar = () => {
       await axios.post(BaseURL + "/logout", {}, { withCredentials: true });
       dispatch(removeUsers());
       navigate("/login");
-      window.location.reload(); // 💥 Force UI refresh
   } catch (err) {
     console.log(err);
   }

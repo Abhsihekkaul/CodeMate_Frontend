@@ -36,7 +36,6 @@ const SignUp = () => {
       );
       dispatch(addUsers(res.data));
       navigate("/");
-      window.location.reload();
     } catch (err) {
       console.log(err);
       setError(err?.response?.data?.error || "Signup failed");

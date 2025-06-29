@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addConnections } from '../utils/ConnectionSlice';
 import axios from 'axios';
 import { BaseURL } from '../utils/Constant';
+import { CreateSocketConnection } from '../utils/socket';
 
 const ChatBook = () => {
   const dispatch = useDispatch();
-  const connections = useSelector((store) => store.Connections?.data || []);
+  const connections = useSelector((store) => store.Connections?.data) || [];
   const [selectedChat, setSelectedChat] = useState(null);
+  const user = useSelector((store)=>store.user);
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -24,6 +26,21 @@ const ChatBook = () => {
 
     fetchConnections();
   }, [connections.length, dispatch]);
+
+
+  useEffect(()=>{
+    const socket = CreateSocketConnection();
+    socket.emit("joinChat", {
+      firstName : user?.[0]?.firstName,
+      UserID : user?.[0]?._id,
+      TargetName : selectedChat?.firstName ,
+      targetUserId : selectedChat?._id,
+      });
+
+    return () => {
+      socket.disconnect();
+    }
+  },[user?.[0]?._id, selectedChat?._id])
 
   if (selectedChat) {
     return (
@@ -42,13 +59,42 @@ const ChatBook = () => {
             className='w-10 h-10 rounded-full border border-white object-cover'
           />
           <h2 className='text-lg font-semibold'>
-            {selectedChat.firstName} {selectedChat.lastName}
+            {selectedChat?.firstName} {selectedChat?.lastName}
           </h2>
         </div>
 
         {/* 💬 Chat Area */}
         <div className='flex-1 overflow-y-auto p-4'>
-          <p className='text-gray-300'>Chat with {selectedChat.firstName} goes here...</p>
+          <div className="chat chat-start">
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS chat bubble component"
+                  src={selectedChat?.PhotoURL}
+                />
+              </div>
+            </div>
+            <div className="chat-header">
+              <time className="text-xs opacity-50">12:45</time>
+            </div>
+            <div className="chat-bubble">You were the Chosen One!</div>
+            <div className="chat-footer opacity-50">Delivered</div>
+          </div>
+          <div className="chat chat-end">
+            <div className="chat-image avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS chat bubble component"
+                  src={user?.[0]?.PhotoURL}
+                />
+              </div>
+            </div>
+            <div className="chat-header">
+              <time className="text-xs opacity-50">12:46</time>
+            </div>
+            <div className="chat-bubble">I hate you!</div>
+            <div className="chat-footer opacity-50">Seen at 12:46</div>
+          </div>
         </div>
 
         {/* ✏️ Input Area */}

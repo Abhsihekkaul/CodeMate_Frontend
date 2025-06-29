@@ -23,7 +23,6 @@ const Login = () => {
     });
       dispatch(addUsers(res.data));
       navigate("/");
-      window.location.reload();
       // console.log(res.data);
     }catch(err){
 

@@ -41,7 +41,6 @@ const EditProfile = () => {
         autoClose: 3000,
         className: 'bg-green-800 text-white font-mono border border-green-600',
       });
-      
       setTimeout(() => {
         navigate('/profile');
         window.location.reload();
