@@ -1,23 +1,26 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router';
 import { BaseURL } from '../utils/Constant';
 import { removeUsers } from '../utils/UserSlice';
+import { removeFeed } from '../utils/FeedSlice';
+import { removeConnections } from '../utils/ConnectionSlice';
 
 const Navbar = () => {
   const User = useSelector((store) => store.user);
   // console.log(User);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleLogout = async () => {
     try {
       await axios.post(BaseURL + "/logout", {}, { withCredentials: true });
       dispatch(removeUsers());
+      dispatch(removeFeed());
+      dispatch(removeConnections());
       navigate("/login");
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -31,22 +34,22 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-3">
-        {User ? (
+        {User && Object.keys(User).length > 0 ?(
             <h1 className='hidden sm:block'>
-              Hello, {User?.[0]?.firstName} {User?.[0]?.lastName}
+              Hello, {User?.firstName} {User?.lastName}
             </h1>
           ) : (
             <h1 className='hidden sm:block'>Hello, Please Login!</h1>
           )}
 
 
-        {User && (
+        {User && Object.keys(User).length > 0 ?(
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar hover:scale-105 transition-transform">
               <div className="w-10 rounded-full border border-green-500 overflow-hidden">
                 <img
                   alt="User Avatar"
-                  src={User?.[0]?.PhotoURL}
+                  src={User?.PhotoURL}
                 />
               </div>
             </div>
@@ -55,12 +58,12 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-md bg-[#1A1D21] border border-green-700 rounded-lg w-52 text-green-300">
               <li><Link to={"/Profile"} className="hover:bg-green-700/10">Profile</Link></li>
               <li><Link  to={"/Connections"} className="hover:bg-green-700/10">Connections</Link></li>
-              <li><Link  to={"/feed"} className="hover:bg-green-700/10">Feed</Link></li>
+              <li><Link  to={"/MateChat"} className="hover:bg-green-700/10 block">MateChat</Link></li>
               <li><Link  to={"/Requests"} className="hover:bg-green-700/10">Requests</Link></li>
               <li><a onClick={handleLogout} className="hover:bg-green-700/10">Logout</a></li>
             </ul>
           </div>
-        )}
+        ):<></>}
       </div>
     </div>
   );

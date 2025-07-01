@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const Profile = () => {
   const user = useSelector((store) => store.user);
-  const { firstName, lastName, About, Age, PhotoURL, Email, Skills } = user?.[0] || {};
+  const { firstName, lastName, About, Age, PhotoURL, Email, Skills } = user || {};
 
   const skillsToRender = Skills?.length > 0 ? Skills : ['No skills added'];
 

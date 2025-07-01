@@ -8,7 +8,7 @@ import RequestCard from './RequestCard';
 
 const Request = () => {
   const dispatch = useDispatch();
-  const RequestFeed = useSelector((store) => store.Request.received);
+  const [RequestFeed, setReceivedRequests] = useState(useSelector((store) => store.Request.received));
   const [Error, setError] = useState(" ");
 
   const fetchRequests = async () => {
@@ -35,7 +35,7 @@ const Request = () => {
           <RequestCard key={request._id} data={request} reqID={request._id} />
         ))
       ) : (
-        <h1 className="text-green-400 text-center text-lg mt-10">{Error}</h1>
+        <h1 className="text-green-400 text-center text-lg mt-10">No Request Found!</h1>
       )}
     </div>
   );

@@ -20,7 +20,7 @@ const ChatBook = () => {
         });
         dispatch(addConnections(res.data));
       } catch (err) {
-        console.log("ChatBook fetch error:", err.message);
+        console.error("ChatBook fetch error:", err.message);
       }
     };
 
@@ -31,8 +31,8 @@ const ChatBook = () => {
   useEffect(()=>{
     const socket = CreateSocketConnection();
     socket.emit("joinChat", {
-      firstName : user?.[0]?.firstName,
-      UserID : user?.[0]?._id,
+      firstName : user?.firstName,
+      UserID : user?._id,
       TargetName : selectedChat?.firstName ,
       targetUserId : selectedChat?._id,
       });
@@ -40,7 +40,7 @@ const ChatBook = () => {
     return () => {
       socket.disconnect();
     }
-  },[user?.[0]?._id, selectedChat?._id])
+  },[user?._id, selectedChat?._id])
 
   if (selectedChat) {
     return (
@@ -85,7 +85,7 @@ const ChatBook = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS chat bubble component"
-                  src={user?.[0]?.PhotoURL}
+                  src={user?.PhotoURL}
                 />
               </div>
             </div>

@@ -9,7 +9,6 @@ import { BaseURL } from '../utils/Constant';
 
 const Body = () => {
   const UserData = useSelector((store) => store.user);
-  // console.log(UserData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,16 +20,10 @@ const Body = () => {
         withCredentials: true, 
       });
 
-      dispatch(addUsers(res.data));
+      dispatch(addUsers(res.data[0]));
     } catch (err) {
-      console.log("Error:", err.message);
-
-      // ✅ Check error status correctly
-      // if (err.response && err.response.status === 500) {
-        navigate("/login");
-      // } else {
-      //   console.error("Unexpected error:", err);
-      // }
+      console.error("Error:", err.message);
+      navigate("/login");
     }
   };
 

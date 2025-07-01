@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditProfile = () => {
-  const user = useSelector((store) => store.user?.[0]);
+  const user = useSelector((store) => store?.user);
+  // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +36,6 @@ const EditProfile = () => {
       });
 
       dispatch(addUsers([res.data]));
-      console.log(res.data);
       toast.success('✅ Profile updated successfully!', {
         position: 'top-right',
         autoClose: 3000,

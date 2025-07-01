@@ -34,10 +34,8 @@ const SignUp = () => {
           withCredentials: true,
         }
       );
-      dispatch(addUsers(res.data));
-      navigate("/");
+      navigate('/login');
     } catch (err) {
-      console.log(err);
       setError(err?.response?.data?.error || "Signup failed");
     }
   };

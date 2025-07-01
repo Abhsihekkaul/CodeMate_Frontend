@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const UserSlice = createSlice({
   name: "user",
-  initialState : [],
+  initialState : {},
   reducers: {
     // Replaces the whole user list with a new one
     addUsers: (state, action) => {

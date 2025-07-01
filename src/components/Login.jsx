@@ -21,12 +21,10 @@ const Login = () => {
     {
       withCredentials : true,
     });
-      dispatch(addUsers(res.data));
+      dispatch(addUsers(res.data.user));
+      console.log(res.data)
       navigate("/");
-      // console.log(res.data);
     }catch(err){
-
-      console.log(err);
       setError(err?.response?.data?.error);
     }
   }

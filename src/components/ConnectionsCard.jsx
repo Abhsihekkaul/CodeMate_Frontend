@@ -6,20 +6,18 @@ const ConnectionCard = ({ data }) => {
     try{
         const fetchID = await axios.get(`${BaseURL}/connection/accepted/${id}`, {withCredentials : true});
         if(!fetchID) return;
-        console.log(fetchID?.data?.connectionId);
         const ID =  fetchID?.data?.connectionId;
         handleConnectionRemoval(ID);
     }catch(err){
-      console.log(err);
+      console.error(err);
     }
   }
   const handleConnectionRemoval = async (id) => {
     try{
       if(!id) return;
       const res = await axios.delete(`${BaseURL}/connections/delete/${id}`, {withCredentials:true});
-      console.log(res);
     }catch(err){
-      console.log(err);
+      console.error(err);
     }
   }
   return (
