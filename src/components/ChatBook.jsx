@@ -33,7 +33,6 @@ const ChatBook = () => {
     socket.emit("joinChat", {
       firstName : user?.firstName,
       UserID : user?._id,
-      TargetName : selectedChat?.firstName ,
       targetUserId : selectedChat?._id,
       });
 

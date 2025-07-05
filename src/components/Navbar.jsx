@@ -9,7 +9,7 @@ import { removeConnections } from '../utils/ConnectionSlice';
 
 const Navbar = () => {
   const User = useSelector((store) => store.user);
-  // console.log(User);
+  // (User);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = async () => {
