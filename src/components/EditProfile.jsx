@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const EditProfile = () => {
   const user = useSelector((store) => store?.user);
-  // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

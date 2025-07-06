@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnections } from '../utils/ConnectionSlice';
 import axios from 'axios';
@@ -8,8 +8,11 @@ import { CreateSocketConnection } from '../utils/socket';
 const ChatBook = () => {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.Connections?.data) || [];
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
   const [selectedChat, setSelectedChat] = useState(null);
-  const user = useSelector((store)=>store.user);
+  const user = useSelector((store) => store.user);
+  const socketRef = useRef(null);
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -23,31 +26,57 @@ const ChatBook = () => {
         console.error("ChatBook fetch error:", err.message);
       }
     };
-
     fetchConnections();
   }, [connections.length, dispatch]);
 
+  useEffect(() => {
+    if (!user?._id || !selectedChat?._id) return;
 
-  useEffect(()=>{
-    const socket = CreateSocketConnection();
+    if (!socketRef.current) {
+      socketRef.current = CreateSocketConnection();
+    }
+
+    const socket = socketRef.current;
+
     socket.emit("joinChat", {
-      firstName : user?.firstName,
-      UserID : user?._id,
-      targetUserId : selectedChat?._id,
-      });
+      firstName: user?.firstName,
+      UserID: user?._id,
+      targetUserId: selectedChat?._id,
+    });
+
+    socket.on("receiveMessage", (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
 
     return () => {
-      socket.disconnect();
-    }
-  },[user?._id, selectedChat?._id])
+      socket.off("receiveMessage");
+    };
+  }, [user?._id, selectedChat?._id]);
+
+  const sendMessage = () => {
+    if (!newMessage.trim()) return;
+
+    const socket = socketRef.current;
+    const msgObj = {
+      firstName: user?.firstName,
+      UserID: user?._id,
+      targetUserId: selectedChat?._id,
+      text: newMessage,
+    };
+
+    socket.emit("sendMessage", msgObj);
+    setNewMessage(""); // ✅ DO NOT append to messages locally
+  };
 
   if (selectedChat) {
     return (
       <div className='flex flex-col h-[90vh] bg-[#1f1f1f] text-white'>
-        {/* 🔙 Top Bar */}
         <div className='flex items-center gap-3 bg-green-700 px-4 py-3 shadow-md'>
           <button
-            onClick={() => setSelectedChat(null)}
+            onClick={() => {
+              setSelectedChat(null);
+              setMessages([]);
+            }}
             className='w-10 h-10 flex items-center justify-center text-black text-xl bg-white rounded-full hover:bg-gray-200'
           >
             ←
@@ -62,48 +91,46 @@ const ChatBook = () => {
           </h2>
         </div>
 
-        {/* 💬 Chat Area */}
+        {/* Render messages */}
         <div className='flex-1 overflow-y-auto p-4'>
-          <div className="chat chat-start">
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS chat bubble component"
-                  src={selectedChat?.PhotoURL}
-                />
+          {messages.map((msg, idx) => {
+            const isUser = msg.senderId === user._id;
+            return (
+              <div key={idx} className={`chat ${isUser ? "chat-end" : "chat-start"}`}>
+                <div className="chat-image avatar">
+                  <div className="w-10 rounded-full">
+                    <img
+                      src={isUser ? user?.PhotoURL : selectedChat?.PhotoURL}
+                      alt="avatar"
+                    />
+                  </div>
+                </div>
+                <div className="chat-header text-xs opacity-50">{msg.firstName}</div>
+                <div className="chat-bubble">{msg.text}</div>
               </div>
-            </div>
-            <div className="chat-header">
-              <time className="text-xs opacity-50">12:45</time>
-            </div>
-            <div className="chat-bubble">You were the Chosen One!</div>
-            <div className="chat-footer opacity-50">Delivered</div>
-          </div>
-          <div className="chat chat-end">
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS chat bubble component"
-                  src={user?.PhotoURL}
-                />
-              </div>
-            </div>
-            <div className="chat-header">
-              <time className="text-xs opacity-50">12:46</time>
-            </div>
-            <div className="chat-bubble">I hate you!</div>
-            <div className="chat-footer opacity-50">Seen at 12:46</div>
-          </div>
+            );
+          })}
         </div>
 
-        {/* ✏️ Input Area */}
+        {/* Input */}
         <div className='flex items-center gap-2 p-4 bg-[#2a2a2a] border-t border-gray-700'>
           <input
             type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                sendMessage();
+              }
+            }}
             className='flex-1 px-4 py-2 rounded-full bg-gray-800 text-white focus:outline-none'
             placeholder='Type a message...'
           />
-          <button className='bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-full'>
+          <button
+            onClick={sendMessage}
+            className='bg-green-600 hover:bg-green-800 text-white px-4 py-2 rounded-full'
+          >
             Send
           </button>
         </div>
@@ -111,22 +138,17 @@ const ChatBook = () => {
     );
   }
 
-  // 📖 Chat List
   return (
     <div className='flex flex-col h-screen bg-[#0f1115] text-white'>
-      {/* 🔝 Header */}
       <div className='flex justify-between items-center px-6 py-4 bg-green-700'>
         <h1 className='text-2xl font-semibold'>MateChat</h1>
-        {/* You can uncomment for search input */}
-        {/* <input type="text" placeholder="Search..." className="bg-white px-3 py-1 rounded" /> */}
       </div>
-
-      {/* 📇 Connections List */}
       <div className='overflow-y-auto flex-1'>
         {connections.length > 0 ? (
           connections.map((conn) => (
             <div
               key={conn._id}
+              onClick={() => setSelectedChat(conn)}
               className='flex justify-between items-center p-4 hover:bg-[#1a1d22] border-b border-[#23272e] cursor-pointer'
             >
               <div className='flex items-center gap-4'>
@@ -142,7 +164,6 @@ const ChatBook = () => {
                 </div>
               </div>
               <button
-                onClick={() => setSelectedChat(conn)}
                 className='bg-green-600 hover:bg-green-800 px-4 py-2 rounded text-white text-sm'
               >
                 Chat
